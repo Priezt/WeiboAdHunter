@@ -1,0 +1,28 @@
+{
+	"name": "微博广告猎人",
+	"version": "1.0",
+	"description": "通过设定关键字，屏蔽广告以及垃圾微博",
+	"permissions": [
+		"http://*/*",
+		"https://*/*",
+		"tabs"
+	],
+	"content_scripts": [
+		{
+			"matches": [
+				"http://weibo.com/*"
+			],
+			"js": [
+				"lib/jquery-1.6.1.min.js",
+				"lib/ztoolkit.js",
+				"str.js",
+				"content_main.js"
+			]
+		}
+	],
+	"icons": {
+		"128": "img/icon128.png",
+		"48": "img/icon48.png",
+		"16": "img/icon16.png"
+	}
+}
