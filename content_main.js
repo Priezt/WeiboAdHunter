@@ -19,7 +19,7 @@ function filter_posts(){
 	if(localStorage["keyword_list"]){
 		keyword_list = JSON.parse(localStorage["keyword_list"]);
 	}
-	$("#feed_list .MIB_linedot_l").each(function(){
+	$("dl.feed_list").each(function(){
 		var text = $(this).text();
 		for(var i=0;i<keyword_list.length;i++){
 			var keywords = keyword_list[i].split(",");
@@ -34,22 +34,27 @@ function filter_posts(){
 				console.log("block id: " + $(this).attr("id"));
 				//console.log(text);
 				blocked_id_list.push($(this).attr("id"));
-				append_blocked_div($(this).html());
+				append_blocked_div($(this).html(), keyword_list[i]);
 				$(this).remove();
 				break;
 			}
 		}
 	});
 	update_blocked_count();
-	current_post_count = $("#feed_list .MIB_linedot_l").size();
+	current_post_count = $("dl.feed_list").size();
 }
 
-function append_blocked_div(html){
-	$("#blocked_posts").append(
-		$("<div></div>")
-			.addClass("blocked_post")
-			.append(html)
-	);
+function append_blocked_div(html, keyword){
+	$("#blocked_posts")
+		.append(
+			$("<div></div>")
+				.addClass("blocked_keyword")
+				.text(keyword)
+		).append(
+			$("<div></div>")
+				.addClass("blocked_post")
+				.append(html)
+		);
 }
 
 function update_blocked_count(){
@@ -58,7 +63,9 @@ function update_blocked_count(){
 
 function tick(){
 	//console.log("tick()");
-	post_count = $("#feed_list .MIB_linedot_l").size();
+	//post_count = $(".MIB_linedot_l").size();
+	post_count = $("dl.feed_list").size();
+	console.log("post count: " + post_count + " / " + current_post_count);
 	if(post_count != current_post_count){
 		console.log("new post found");
 		filter_posts();
@@ -252,6 +259,13 @@ function content_css(){
 <style>
 .mouseover {
 	background-color: #BBF;
+}
+.blocked_keyword {
+	margin: 2px;
+	border-style: dashed;
+	border-width: 2px;
+	border-color: #00F;
+	display: block;
 }
 .blocked_post {
 	margin: 2px;
